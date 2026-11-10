@@ -1,6 +1,6 @@
 import pytest
 
-from image import RGB_DTYPE, Image
+from image import RGBA_DTYPE, Image
 
 
 def test_image_construct():
@@ -11,7 +11,7 @@ def test_image_construct():
     assert img.width == width
     assert img.height == height
     assert img.pixels.shape == (height, width)
-    assert img.pixels[0, 0].dtype == RGB_DTYPE
+    assert img.pixels[0, 0].dtype == RGBA_DTYPE
 
 
 fail_cases = [(0, 0, ValueError), (1.0, 0, TypeError), ("h", 0, TypeError), (10, 0, ValueError), (0, 10, ValueError)]
@@ -24,5 +24,5 @@ def test_fail_image_construct(w, h, ex):
 
 
 def test_save_image():
-    img = Image(400, 200, (255, 0, 0))
+    img = Image(400, 200, (255, 0, 0, 255))
     img.save("test.png")

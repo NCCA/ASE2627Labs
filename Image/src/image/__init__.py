@@ -1,6 +1,6 @@
-from .image import RGB_DTYPE, Image
+from .image import RGBA_DTYPE, Image
 
-__all__ = ["Image", "RGB_DTYPE"]
+__all__ = ["Image", "RGBA_DTYPE"]
 
 
 def main() -> None:
