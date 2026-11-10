@@ -12,6 +12,7 @@ def test_image_construct():
     assert img.height == height
     assert img.pixels.shape == (height, width)
     assert img.pixels[0, 0].dtype == RGBA_DTYPE
+    assert img.pixels.shape == (height, width)
 
 
 fail_cases = [(0, 0, ValueError), (1.0, 0, TypeError), ("h", 0, TypeError), (10, 0, ValueError), (0, 10, ValueError)]
@@ -40,4 +41,14 @@ def test_subscript():
     assert img[0, 0] == (255, 0, 0, 255)
 
     img.set_pixel(1, 1, (128, 128, 128, 128))
-    assert img.get_pixel(1,1) == (128,128,128,128)
+    assert img.get_pixel(1, 1) == (128, 128, 128, 128)
+
+
+def test_visual_correct():
+    img = Image(3, 1, (255, 255, 255, 255))
+    img.save("white.png")
+
+    img.set_pixel(0, 0, (255, 0, 0, 255))
+    img.set_pixel(1, 0, (0, 255, 0, 255))
+    img.set_pixel(2, 0, (0, 0, 255, 255))
+    img.save("rgb.png")

@@ -29,6 +29,10 @@ class Image:
         self._pixels[:] = np.array((colour[0], colour[1], colour[2], colour[3]), dtype=RGBA_DTYPE)
 
     @property
+    def shape(self) -> np.shape:
+        return self._pixels.shape
+
+    @property
     def width(self) -> int:
         return self._pixels.shape[1]
 
@@ -44,7 +48,7 @@ class Image:
         return view
 
     def save(self, file_name: str | Path):
-        data = self._pixels.view(np.uint8).reshape(self.width, self.height, 4)
+        data = self._pixels.view(np.uint8).reshape(self.height, self.width, 4)
         PILImage.fromarray(data).save(file_name)
 
     def _validate_x_y(self, x, y):
@@ -63,7 +67,9 @@ class Image:
         self._pixels[y, x] = colour
 
     def set_pixel(self, x: int, y: int, colour: ColourLike) -> None:
-        self[y, x] = colour
+        # note the swap of x,y as the __setitem__ already doest it
+        self[x, y] = colour
 
     def get_pixel(self, x: int, y: int) -> ColourLike:
-        return self[y, x]
+        # note the swap of x,y as the __setitem__ already doest it
+        return self[x, y]
