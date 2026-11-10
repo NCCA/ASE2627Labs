@@ -46,3 +46,24 @@ class Image:
     def save(self, file_name: str | Path):
         data = self._pixels.view(np.uint8).reshape(self.width, self.height, 4)
         PILImage.fromarray(data).save(file_name)
+
+    def _validate_x_y(self, x, y):
+        if not (0 <= x <= self.width and 0 <= y <= self.height):
+            raise IndexError("Pixel out of bounds")
+
+    def __getitem__(self, key: tuple[int, int]) -> tuple[int, int, int, int]:
+        x, y = key
+        self._validate_x_y(x, y)
+        pixel_data = self.pixels[y, x]
+        return (int(pixel_data[0]), int(pixel_data[1]), int(pixel_data[2]), int(pixel_data[3]))
+
+    def __setitem__(self, key: tuple[int, int], colour: ColourLike) -> None:
+        x, y = key
+        self._validate_x_y(x, y)
+        self._pixels[y, x] = colour
+
+    def set_pixel(self, x: int, y: int, colour: ColourLike) -> None:
+        self[y, x] = colour
+
+    def get_pixel(self, x: int, y: int) -> ColourLike:
+        return self[y, x]

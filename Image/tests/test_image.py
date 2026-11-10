@@ -26,3 +26,18 @@ def test_fail_image_construct(w, h, ex):
 def test_save_image():
     img = Image(400, 200, (255, 0, 0, 255))
     img.save("test.png")
+
+
+def test_subscript():
+    img = Image(10, 20, (0, 0, 0, 255))
+    assert img[0, 0] == (0, 0, 0, 255)
+    with pytest.raises(IndexError):
+        img[-1, 0]
+    with pytest.raises(IndexError):
+        img[1, 22]
+
+    img[0, 0] = (255, 0, 0, 255)
+    assert img[0, 0] == (255, 0, 0, 255)
+
+    img.set_pixel(1, 1, (128, 128, 128, 128))
+    assert img.get_pixel(1,1) == (128,128,128,128)
